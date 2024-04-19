@@ -1,20 +1,30 @@
-// Practicum1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
+
+using namespace cv;
+using namespace std;
+
+void opdracht3();
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	opdracht3();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void opdracht3() {
+	Mat img(512, 512, CV_8UC3, Scalar(0, 255, 0));
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	circle(img, Point(256, 256), 155, Scalar(255, 0, 0), FILLED);
+
+	rectangle(img, Point(130, 226), Point(382, 286), Scalar(255, 255, 255), 3);
+
+	line(img, Point(130, 296), Point(382, 296), Scalar(255, 255, 255), 2);
+
+	putText(img, "Opdracht 3", Point(137, 262), FONT_HERSHEY_DUPLEX, 1, Scalar(255, 0, 255), 2);
+
+	imshow("Image", img);
+	
+	waitKey(0);
+}
