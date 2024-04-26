@@ -1,20 +1,58 @@
-// Practicum1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
 
-int main()
+using namespace cv;
+using namespace std;
+
+void opdracht2();
+void opdracht4();
+
+void main() 
 {
-    std::cout << "Hello World!\n";
+	opdracht4();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void opdracht2()
+{
+	// Afbeeldingen inlezen
+	string path = "Resources/test.png";
+	Mat img = imread(path);
+	Mat imgResize, imgCrop;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	// Afbeelding resizen, de grootte van de afbeelding wordt verdubbeld
+	resize(img, imgResize, Size(), 2, 2);
+
+	// De afbeelding wordt bijgesneden (x, y, breedte, hoogte)
+	Rect roi(50, 50, 200, 100);
+	imgCrop = img(roi);
+
+	// Afbeeldingen weergeven
+	imshow("Original Image", img);
+	imshow("Image Resize", imgResize);
+	imshow("Image Crop", imgCrop);
+	waitKey(0);
+}
+
+void opdracht4()
+{
+	float width = 500, height = 750;
+	Mat matrix, imgWarp, imgWarpResize;
+
+	string path = "Resources/perspective.jpg";
+	Mat image = imread(path);
+
+	// Eerst punt linksboven, rechtsboven, linksonder, rechtsonder
+	Point2f sources[4] = { {610, 1140}, {1541, 1319}, {136, 1878}, {1480, 2175} };
+	Point2f destination[4] = { {0.0f, 0.0f}, {width, 0.0f}, {0.0f, height}, {width, height} };
+
+	// Perspectief transformatie
+	matrix = getPerspectiveTransform(sources, destination);
+	warpPerspective(image, imgWarp, matrix, Point(width, height));
+
+	imshow("Image", image);
+	imshow("Image Warp", imgWarp);
+	waitKey(0);
+}
+
