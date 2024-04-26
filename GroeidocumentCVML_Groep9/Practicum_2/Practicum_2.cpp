@@ -1,20 +1,70 @@
-// Practicum_2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
 
-int main()
+using namespace cv;
+using namespace std;
+
+void opdracht1e();
+void opdracht1f();
+
+void main()
 {
-    std::cout << "Hello World!\n";
+    string path = "Resources/test.png";
+    Mat img = imread(path);
+    Mat imgCanny, imgDilate, imgErode;
+
+    GaussianBlur(img, img, Size(7, 7), 0, 0);
+    Canny(img, imgCanny, 50, 150);
+    Mat kernel = getStructuringElement(MORPH_RECT, Size(5, 5));
+    dilate(imgCanny, imgDilate, kernel);
+    erode(imgDilate, imgErode, kernel);
+
+
+    imshow("Image", img);
+    imshow("CannyImage", imgCanny);
+    imshow("DilateImage", imgDilate);
+    imshow("ErodeImage", imgErode);
+    waitKey(0);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void opdracht1e()
+{
+    string path = "Resources/test.png";
+    Mat img = imread(path);
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    Mat imgBlur;
+    Mat imgBlur2;
+    Mat imgBlur3;
+
+    GaussianBlur(img, imgBlur, Size(7, 7), 0, 0);
+    GaussianBlur(img, imgBlur2, Size(9, 9), 5, 0);
+    GaussianBlur(img, imgBlur3, Size(11, 11), 5, 5);
+
+    imshow("BlurImage", imgBlur);
+    imshow("BlurImage2", imgBlur2);
+    imshow("BlurImage3", imgBlur3);
+    imshow("Image", img);
+    waitKey(0);
+}
+
+void opdracht1f()
+{
+	string path = "Resources/test.png";
+	Mat img = imread(path);
+    Mat imgCanny, imgDilate, imgErode;
+    
+   GaussianBlur(img, img, Size(7, 7), 0, 0);
+   Canny(img, imgCanny, 50, 150);
+   Mat kernel = getStructuringElement(MORPH_RECT, Size(5, 5));
+   dilate(imgCanny, imgDilate, kernel);
+   erode(imgDilate, imgErode, kernel);
+
+	
+	imshow("Image", img);
+    imshow("CannyImage", imgCanny);
+    imshow("DilateImage", imgDilate);
+    imshow("ErodeImage", imgErode);
+	waitKey(0);
+}   
