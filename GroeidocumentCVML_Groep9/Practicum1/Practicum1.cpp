@@ -6,7 +6,7 @@
 using namespace cv;
 using namespace std;
 
-void opdracht2();
+void opdracht3();
 void opdracht3();
 void opdracht4();
 
@@ -15,7 +15,7 @@ void main()
 	opdracht4();
 }
 
-void opdracht2()
+void opdracht3()
 {
 	// Afbeeldingen inlezen
 	string path = "Resources/test.png";

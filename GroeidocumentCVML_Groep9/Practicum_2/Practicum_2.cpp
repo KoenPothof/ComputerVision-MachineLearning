@@ -1,20 +1,59 @@
-// Practicum_2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
+
+using namespace cv;
+using namespace std;
+
+void opdracht2();
+void opdracht3();
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	opdracht2();
+	return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void opdracht2()
+{
+	Mat imagePatrick = imread("Resources/cpatrick.png");
+	Mat imageDababy = imread("Resources/dababycar.png");
+	Mat imageCannyPatrick, imageCannyDababy;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+	int threshold1 = 100;
+	int threshold2 = 200;
+
+	namedWindow("Trackbars", (640, 200));
+	createTrackbar("Threshold 1", "Trackbars", &threshold1, 179);
+	createTrackbar("Threshold 2", "Trackbars", &threshold2, 179);
+
+	while(true)
+	{
+		Canny(imagePatrick, imageCannyPatrick, threshold1, threshold2);
+		Canny(imageDababy, imageCannyDababy, threshold1, threshold2);
+
+		imshow("Image patrick", imagePatrick);
+		imshow("Image dababy", imageDababy);
+		imshow("Image Canny Patrick", imageCannyPatrick);
+		imshow("Image Canny Dababy", imageCannyDababy);
+		waitKey(1);
+	}
+
+}
+
+void opdracht3()
+{
+	string path = "Resources/ballstripes.png";
+	Mat img = imread(path);
+	Mat imgBlur, imgClose, imgDilate;
+
+	int kernelSize = 18;
+	Mat kernel = getStructuringElement(MORPH_RECT, Size(kernelSize, kernelSize));
+	morphologyEx(img, imgClose, MORPH_CLOSE, kernel);
+
+	imshow("Image", img);
+	imshow("Image Closed", imgClose);
+	waitKey(0);
+}
+
