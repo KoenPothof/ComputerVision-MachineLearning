@@ -9,10 +9,34 @@ using namespace std;
 void opdracht2();
 void opdracht3();
 void opdracht4();
+void handDetection();
 
 void main() 
 {
-	opdracht4();
+	handDetection();
+}
+
+void handDetection() {
+
+	string path = "Resources/hand.jpg";	
+	Mat img = imread(path);
+
+	CascadeClassifier handCascade;
+	handCascade.load("Resources/haarcascade_frontalface_default.xml");
+
+	if (handCascade.empty()) { cout << "XML file not loaded" << endl; }	
+
+	vector<Rect> hands;
+	handCascade.detectMultiScale(img, hands, 1.1, 10);
+
+	for (int i = 0; i < hands.size(); i++) {
+		rectabgle(img , hands[i].tl(), hands[i].br(), Scalar(255, 0, 255), 3);	
+	}
+
+	imshow("Image", img);
+	waitKey(0);
+
+
 }
 
 void opdracht2()
@@ -73,4 +97,6 @@ void opdracht4()
 	imshow("Image Warp", imgWarp);
 	waitKey(0);
 }
+
+
 
