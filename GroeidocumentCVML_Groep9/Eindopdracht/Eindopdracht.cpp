@@ -13,25 +13,25 @@ void extractCharacters(Mat& plate, const string& plateName) {
     GaussianBlur(plate, plate, Size(7, 7), 0);
     Canny(plate, plate, 50, 150);
 
-    // Find contours of characters
+  
     vector<vector<Point>> contours;
     findContours(plate, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 
-    // Sort contours from left to right
     sort(contours.begin(), contours.end(), [](const vector<Point>& a, const vector<Point>& b) {
         return boundingRect(a).x < boundingRect(b).x;
         });
-
-    // Extract and save each character
+    
+    int count = 0;
     for (size_t i = 0; i < contours.size(); i++) {
         Rect bbox = boundingRect(contours[i]);
 
         double contourArea = cv::contourArea(contours[i]);
         if (contourArea < 100 || contourArea > 1000)
             continue;
-
+        
         Mat charImg = plate(bbox);
-        string charFileName = "Resources/NumbersLetter/" + plateName + "_" + to_string(i + 1) + ".png";
+        string charFileName = "Resources/NumbersLetter/" + plateName + "_" + to_string(count + 1) + ".png";
+        count++;
         imwrite(charFileName, charImg);
     }
 }
@@ -63,6 +63,7 @@ int main() {
             rectangle(img, plates[i].tl(), plates[i].br(), Scalar(255, 0, 255), 3);
 
             extractCharacters(plateImg, "nummerbord" + to_string(i + 1));
+
         }
 
         imshow("Image", img);
